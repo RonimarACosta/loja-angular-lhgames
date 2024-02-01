@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Produto } from 'src/app/models/Produto.model';
+import { LoginService } from 'src/app/login.service';
+import { Produto } from 'src/app/models/Produto.models';
 import { ProdutoService } from 'src/app/produto.service';
 @Component({
   selector: 'app-lista-produto',
@@ -10,9 +11,10 @@ import { ProdutoService } from 'src/app/produto.service';
 export class ListaProdutoComponent {
   public produtos: Produto[] = [];
   constructor(private _produtoService: ProdutoService,
-    private router: Router) { }
+    private _router: Router, private _loginService:LoginService) { }
   ngOnInit(): void {
     this.listarProdutos();
+    this._loginService.setMostraMenu(false);
   }
   listarProdutos(): void {
     this._produtoService.getProdutos()
@@ -40,6 +42,6 @@ export class ListaProdutoComponent {
       err => { console.log("erro ao Excluir") }
     );
     // window.location.href = "/restrito/lista";
-    this.router.navigate(["/restrito/lista"]);
+    this._router.navigate(["/restrito/lista"]);
   }
 }
